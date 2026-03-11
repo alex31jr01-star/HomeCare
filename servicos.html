@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serviços - HomeCare</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .page-content {
+            padding: 120px 0 80px;
+            min-height: 100vh;
+        }
+        .page-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .page-header h1 {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        .page-header p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .services-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .service-item {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        .service-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        .service-item-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 30px;
+            color: white;
+            text-align: center;
+        }
+        .service-item-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        .service-item-header .icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        .service-item-body {
+            padding: 30px;
+        }
+        .service-item-body p {
+            color: var(--text-light);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        .service-features {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 25px;
+        }
+        .service-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        .service-features li::before {
+            content: "✓";
+            color: var(--secondary-color);
+            margin-right: 12px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .service-link {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+        .service-link:hover {
+            background: var(--primary-dark);
+            transform: translateX(5px);
+        }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 30px;
+            padding: 10px 20px;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: var(--transition);
+        }
+        .back-btn:hover {
+            background: var(--primary-dark);
+        }
+        .cta-section {
+            text-align: center;
+            margin-top: 80px;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 15px;
+            color: white;
+        }
+        .cta-section h2 {
+            margin-bottom: 15px;
+            font-size: 2rem;
+        }
+        .cta-section p {
+            margin-bottom: 25px;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">HomeCare</h1>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="servicos.html">Serviços</a></li>
+                    <li><a href="index.html#sobre">Sobre Nós</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="cadastro.html">Cadastrar</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Content -->
+    <section class="page-content">
+        <div class="container">
+            
+            <div class="page-header">
+                <h1>Nossos Serviços</h1>
+                <p>Oferecemos uma ampla gama de serviços de cuidados domiciliares para atender às necessidades de cada paciente com excelência e humanização.</p>
+            </div>
+
+            <div class="services-list">
+                <!-- Enfermagem -->
+                <div class="service-item">
+                    <div class="service-item-header">
+                        <div class="icon">👨‍⚕️</div>
+                        <h2>Enfermagem</h2>
+                    </div>
+                    <div class="service-item-body">
+                        <p>Cuidados profissionais de enfermagem 24 horas no conforto do seu lar. Nossa equipe é formada por enfermeiros altamente qualificados.</p>
+                        <ul class="service-features">
+                            <li>Administração de medicamentos</li>
+                            <li>Curativos e tratamentos especiais</li>
+                            <li>Monitoramento de sinais vitais</li>
+                            <li>Cuidados pós-operatórios</li>
+                            <li>Coleta de exames laboratoriais</li>
+                            <li>Cuidados com sonda e cateter</li>
+                        </ul>
+                        <a href="enfermagem.html" class="service-link">Ver Detalhes →</a>
+                    </div>
+                </div>
+
+                <!-- Fisioterapia -->
+                <div class="service-item">
+                    <div class="service-item-header">
+                        <div class="icon">💪</div>
+                        <h2>Fisioterapia</h2>
+                    </div>
+                    <div class="service-item-body">
+                        <p>Reabilitação e fisioterapia domiciliar para recuperar a mobilidade e qualidade de vida dos pacientes.</p>
+                        <ul class="service-features">
+                            <li>Fisioterapia motora</li>
+                            <li>Reabilitação pós-cirúrgica</li>
+                            <li>Tratamento de AVC</li>
+                            <li>Fisioterapia geriátrica</li>
+                            <li>Exercícios de fortalecimento</li>
+                            <li>Terapia ocupacional</li>
+                        </ul>
+                        <a href="fisioterapia.html" class="service-link">Ver Detalhes →</a>
+                    </div>
+                </div>
+
+                <!-- Acompanhamento -->
+                <div class="service-item">
+                    <div class="service-item-header">
+                        <div class="icon">🤝</div>
+                        <h2>Acompanhamento</h2>
+                    </div>
+                    <div class="service-item-body">
+                        <p>Acompanhamento completo para idosos e pacientes que precisam de assistência no dia a dia.</p>
+                        <ul class="service-features">
+                            <li>Acompanhamento 24h</li>
+                            <li>Auxílio em atividades diárias</li>
+                            <li>Medicação e refeições</li>
+                            <li>Acompanhamento a consultas</li>
+                            <li>Companhia e apoio emocional</li>
+                            <li>Auxílio com higiene pessoal</li>
+                        </ul>
+                        <a href="acompanhamento.html" class="service-link">Ver Detalhes →</a>
+                    </div>
+                </div>
+
+                <!-- Cuidados Paliativos -->
+                <div class="service-item">
+                    <div class="service-item-header">
+                        <div class="icon">💚</div>
+                        <h2>Cuidados Paliativos</h2>
+                    </div>
+                    <div class="service-item-body">
+                        <p>Apoio e conforto para pacientes em tratamento, com foco na qualidade de vida e bem-estar.</p>
+                        <ul class="service-features">
+                            <li>Acompanhamento especializado</li>
+                            <li>Controle de dor</li>
+                            <li>Apoio psicológico</li>
+                            <li>Suporte familiar</li>
+                            <li>Cuidados de conforto</li>
+                            <li>Orientação médica</li>
+                        </ul>
+                        <a href="paliativos.html" class="service-link">Ver Detalhes →</a>
+                    </div>
+                </div>
+
+                <!-- Geriatria -->
+                <div class="service-item">
+                    <div class="service-item-header">
+                        <div class="icon">👴</div>
+                        <h2>Geriatria</h2>
+                    </div>
+                    <div class="service-item-body">
+                        <p>Especialidade médica focada na saúde do idoso, com acompanhamento completo e prevenção de doenças.</p>
+                        <ul class="service-features">
+                            <li>Avaliação geriátrica completa</li>
+                            <li>Prevenção de quedas</li>
+                            <li>Gerenciamento de medicamentos</li>
+                            <li>Acompanhamento de doenças crônicas</li>
+                            <li>Cuidados com demência</li>
+                            <li>Orientação familiar</li>
+                        </ul>
+                        <a href="geriatria.html" class="service-link">Ver Detalhes →</a>
+                    </div>
+                </div>
+
+                <!-- Terapia Ocupacional -->
+                <div class="service-item">
+                    <div class="service-item-header">
+                        <div class="icon">🎯</div>
+                        <h2>Terapia Ocupacional</h2>
+                    </div>
+                    <div class="service-item-body">
+                        <p>Reabilitação funcional para ajudar o idoso a realizar atividades do dia a dia com autonomia.</p>
+                        <ul class="service-features">
+                            <li>Reabilitação motora</li>
+                            <li>Atividades da vida diária</li>
+                            <li>Prevenção de quedas</li>
+                            <li>Adaptações para independência</li>
+                            <li>Estimulação cognitiva</li>
+                            <li>Órteses e próteses</li>
+                        </ul>
+                        <a href="terapia-ocupacional.html" class="service-link">Ver Detalhes →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <h2>Precisa de algum desses serviços?</h2>
+                <p>Nossa equipe está pronta para atender você ou seu familiar com todo o cuidado e profissionalismo que vocês merecem.</p>
+                <a href="contato.html" class="btn btn-primary" style="background: white; color: var(--primary-color);">Fale Conosco</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 HomeCare. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

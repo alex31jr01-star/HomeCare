@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escolher Serviço - HomeCare</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .dashboard-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+        
+        .dashboard-header {
+            background: var(--white);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dashboard-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .dashboard-logo a {
+            text-decoration: none;
+            color: var(--primary-color);
+        }
+        
+        .dashboard-user {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-info {
+            text-align: right;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        
+        .user-type {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+        
+        .back-btn {
+            padding: 10px 20px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+        
+        .back-btn:hover {
+            background: var(--primary-dark);
+        }
+        
+        .dashboard-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .page-title {
+            text-align: center;
+            color: white;
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+        
+        .page-subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        
+        .service-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .service-card.selected {
+            border: 3px solid var(--primary-color);
+            background: #f0f9ff;
+        }
+        
+        .service-card.selected::after {
+            content: "✓";
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .service-icon {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .service-title {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .service-description {
+            color: var(--text-light);
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .service-features {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+        
+        .service-features li {
+            padding: 5px 0;
+            color: var(--text-color);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .service-features li::before {
+            content: "•";
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        .select-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .select-btn:hover {
+            background: var(--primary-dark);
+        }
+        
+        .service-card.selected .select-btn {
+            background: var(--secondary-color);
+            color: var(--text-color);
+        }
+        
+        .selection-summary {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .selection-summary h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .selected-service {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: var(--light-bg);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .selected-service-icon {
+            font-size: 2rem;
+        }
+        
+        .selected-service-name {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        
+        .request-btn {
+            display: inline-block;
+            width: 100%;
+            padding: 15px;
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            text-align: center;
+        }
+        
+        .request-btn:hover {
+            background: #219a52;
+        }
+        
+        .no-selection {
+            text-align: center;
+            color: var(--text-light);
+            padding: 20px;
+        }
+        
+        .info-box {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-page">
+        <header class="dashboard-header">
+            <div class="dashboard-logo">
+                <a href="dashboard-idoso.html">HomeCare</a>
+            </div>
+            <div class="dashboard-user">
+                <div class="user-info">
+                    <div class="user-name" id="userName">Bem-vindo!</div>
+                    <div class="user-type">Área do Idoso</div>
+                </div>
+                <a href="dashboard-idoso.html" class="back-btn">Voltar</a>
+            </div>
+        </header>
+        
+        <div class="dashboard-container">
+            <h1 class="page-title">Escolha seu Serviço</h1>
+            <p class="page-subtitle">Selecione o serviço desejado e clique em "Solicitar Serviço"</p>
+            
+            <div class="services-grid">
+                <!-- Enfermagem -->
+                <div class="service-card" onclick="selectService('enfermagem', 'Enfermagem', '👨‍⚕️')">
+                    <div class="service-icon">👨‍⚕️</div>
+                    <h3 class="service-title">Enfermagem</h3>
+                    <p class="service-description">Cuidados profissionais de enfermagem 24 horas no conforto do seu lar.</p>
+                    <ul class="service-features">
+                        <li>Atendimento 24h</li>
+                        <li>Administração de medicamentos</li>
+                        <li>Curativos e tratamentos</li>
+                        <li>Monitoramento de sinais vitais</li>
+                    </ul>
+                    <button class="select-btn">Selecionar</button>
+                </div>
+                
+                <!-- Fisioterapia -->
+                <div class="service-card" onclick="selectService('fisioterapia', 'Fisioterapia', '💪')">
+                    <div class="service-icon">💪</div>
+                    <h3 class="service-title">Fisioterapia</h3>
+                    <p class="service-description">Reabilitação e fisioterapia domiciliar para recuperar sua mobilidade.</p>
+                    <ul class="service-features">
+                        <li>Fisioterapia motora</li>
+                        <li>Reabilitação pós-cirúrgica</li>
+                        <li>Tratamento de AVC</li>
+                        <li>Fisioterapia geriátrica</li>
+                    </ul>
+                    <button class="select-btn">Selecionar</button>
+                </div>
+                
+                <!-- Acompanhamento -->
+                <div class="service-card" onclick="selectService('acompanhamento', 'Acompanhamento', '🤝')">
+                    <div class="service-icon">🤝</div>
+                    <h3 class="service-title">Acompanhamento</h3>
+                    <p class="service-description">Acompanhamento completo para ajudá-lo em suas atividades diárias.</p>
+                    <ul class="service-features">
+                        <li>Acompanhamento 24h</li>
+                        <li>Auxílio em atividades diárias</li>
+                        <li>Acompanhamento a consultas</li>
+                        <li>Companhia e apoio emocional</li>
+                    </ul>
+                    <button class="select-btn">Selecionar</button>
+                </div>
+                
+                <!-- Cuidados Paliativos -->
+                <div class="service-card" onclick="selectService('paliativos', 'Cuidados Paliativos', '💚')">
+                    <div class="service-icon">💚</div>
+                    <h3 class="service-title">Cuidados Paliativos</h3>
+                    <p class="service-description">Apoio e conforto para pacientes em tratamento, com foco na qualidade de vida.</p>
+                    <ul class="service-features">
+                        <li>Acompanhamento especializado</li>
+                        <li>Controle de dor</li>
+                        <li>Apoio psicológico</li>
+                        <li>Suporte familiar</li>
+                    </ul>
+                    <button class="select-btn">Selecionar</button>
+                </div>
+                
+                <!-- Nutrição -->
+                <div class="service-card" onclick="selectService('geriatria', 'Geriatria', '👴')">
+                    <div class="service-icon">👴</div>
+                    <h3 class="service-title">Geriatria</h3>
+                    <p class="service-description">Especialidade médica focada na saúde do idoso, com acompanhamento completo.</p>
+                    <ul class="service-features">
+                        <li>Avaliação geriátrica completa</li>
+                        <li>Prevenção de quedas</li>
+                        <li>Gerenciamento de medicamentos</li>
+                        <li>Cuidados com demência</li>
+                    </ul>
+                    <button class="select-btn">Selecionar</button>
+                </div>
+                
+                <!-- Psicologia -->
+                <div class="service-card" onclick="selectService('terapia-ocupacional', 'Terapia Ocupacional', '🎯')">
+                    <div class="service-icon">🎯</div>
+                    <h3 class="service-title">Terapia Ocupacional</h3>
+                    <p class="service-description">Reabilitação funcional para ajudar o idoso a ter mais autonomia.</p>
+                    <ul class="service-features">
+                        <li>Reabilitação motora</li>
+                        <li>Atividades da vida diária</li>
+                        <li>Prevenção de quedas</li>
+                        <li>Estimulação cognitiva</li>
+                    </ul>
+                    <button class="select-btn">Selecionar</button>
+                </div>
+            </div>
+            
+            <div class="selection-summary">
+                <h3>📋 Resumo da Seleção</h3>
+                <div class="info-box">
+                    <strong>Como funciona:</strong> Selecione um dos serviços acima e clique em "Solicitar Serviço" para entrar em contato conosco e formalizar sua solicitação.
+                </div>
+                <div id="selectedServiceContainer">
+                    <p class="no-selection">Nenhum serviço selecionado ainda.</p>
+                </div>
+                <a href="contato.html" class="request-btn" id="requestBtn" style="display: none;">Solicitar Serviço</a>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+    <script>
+        let selectedService = null;
+        
+        // Carregar dados do usuário
+        const usuario = JSON.parse(localStorage.getItem('usuarioHomeCare'));
+        if (usuario && usuario.nome) {
+            document.getElementById('userName').textContent = usuario.nome;
+        }
+        
+        function selectService(id, name, icon) {
+            // Remove selection from all cards
+            document.querySelectorAll('.service-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Add selection to clicked card
+            const clickedCard = document.querySelector(`[onclick="selectService('${id}', '${name}', '${icon}')"]`);
+            clickedCard.classList.add('selected');
+            
+            // Store selection
+            selectedService = { id, name, icon };
+            
+            // Update summary
+            const container = document.getElementById('selectedServiceContainer');
+            container.innerHTML = `
+                <div class="selected-service">
+                    <span class="selected-service-icon">${icon}</span>
+                    <span class="selected-service-name">${name}</span>
+                </div>
+            `;
+            
+            // Show request button
+            document.getElementById('requestBtn').style.display = 'block';
+            document.getElementById('requestBtn').textContent = 'Solicitar ' + name;
+            
+            // Store selection in localStorage
+            localStorage.setItem('servicoSelecionado', JSON.stringify(selectedService));
+        }
+    </script>
+</body>
+</html>
+

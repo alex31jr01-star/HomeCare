@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda de Remédios - HomeCare</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .medication-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #A9D6E5 0%, #61A5C2 50%, #2C7DA0 100%);
+        }
+        
+        .medication-header {
+            background: var(--white);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .medication-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .medication-logo a {
+            text-decoration: none;
+            color: var(--primary-color);
+        }
+        
+        .back-btn {
+            padding: 10px 20px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+        
+        .back-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .medication-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .page-title {
+            text-align: center;
+            color: white;
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+        }
+        
+        .page-subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+        
+        .medication-form {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .form-title {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .form-row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .btn-add {
+            width: 100%;
+            padding: 15px;
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 10px;
+        }
+        
+        .btn-add:hover {
+            background: #219a52;
+            transform: translateY(-2px);
+        }
+        
+        .medications-list {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .medications-list h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .medication-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background: var(--light-bg);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            transition: var(--transition);
+        }
+        
+        .medication-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .medication-item.taken {
+            background: #d4edda;
+            border-left: 4px solid #27ae60;
+        }
+        
+        .medication-item.pending {
+            border-left: 4px solid #f39c12;
+        }
+        
+        .medication-info {
+            flex: 1;
+        }
+        
+        .medication-name {
+            font-weight: 700;
+            color: var(--text-color);
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        .medication-dosage {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .medication-time {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-right: 20px;
+        }
+        
+        .medication-time-icon {
+            font-size: 1.3rem;
+        }
+        
+        .btn-take {
+            padding: 10px 20px;
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .btn-take:hover {
+            background: #219a52;
+        }
+        
+        .btn-take.taken {
+            background: #6c757d;
+            cursor: default;
+        }
+        
+        .btn-delete {
+            padding: 10px 15px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            margin-left: 10px;
+        }
+        
+        .btn-delete:hover {
+            background: #c0392b;
+        }
+        
+        .empty-list {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-light);
+        }
+        
+        .empty-list-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #27ae60;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .notification.warning {
+            background: #f39c12;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row, .form-row-3 {
+                grid-template-columns: 1fr;
+            }
+            
+            .medication-item {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .medication-time {
+                justify-content: center;
+            }
+            
+            .btn-take, .btn-delete {
+                width: 100%;
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="medication-page">
+        <header class="medication-header">
+            <div class="medication-logo">
+                <a href="index.html">🏥 HomeCare</a>
+            </div>
+            <div class="dashboard-user">
+                <a href="dashboard-idoso.html" class="back-btn">← Voltar</a>
+            </div>
+        </header>
+        
+        <div class="medication-container">
+            <h1 class="page-title">💊 Agenda de Remédios</h1>
+            <p class="page-subtitle">Organize seus medicamentos e receba lembretes</p>
+            
+            <!-- Formulário para adicionar medicamento -->
+            <div class="medication-form">
+                <h2 class="form-title">➕ Adicionar Novo Medicamento</h2>
+                <form id="medicationForm">
+                    <div class="form-group">
+                        <label for="medName">Nome do Medicamento</label>
+                        <input type="text" id="medName" placeholder="Ex: Dipirona" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="medDosage">Dosagem</label>
+                        <input type="text" id="medDosage" placeholder="Ex: 500mg, 1 comprimido" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="medTime1">Horário 1</label>
+                            <input type="time" id="medTime1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="medTime2">Horário 2 (opcional)</label>
+                            <input type="time" id="medTime2">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="medTime3">Horário 3 (opcional)</label>
+                            <input type="time" id="medTime3">
+                        </div>
+                        <div class="form-group">
+                            <label for="medTime4">Horário 4 (opcional)</label>
+                            <input type="time" id="medTime4">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="medNotes">Observações</label>
+                        <textarea id="medNotes" rows="2" placeholder="Ex: Tomar após as refeições"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-add">✅ Adicionar Medicamento</button>
+                </form>
+            </div>
+            
+            <!-- Lista de medicamentos -->
+            <div class="medications-list">
+                <h2>📋 Meus Medicamentos</h2>
+                <div id="medicationsContainer">
+                    <div class="empty-list">
+                        <div class="empty-list-icon">💊</div>
+                        <p>Nenhum medicamento cadastrado.</p>
+                        <p>Adicione acima os seus medicamentos.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+    <script>
+        // Carregar medicamentos do localStorage
+        let medications = JSON.parse(localStorage.getItem('medicamentos')) || [];
+        
+        // Renderizar lista de medicamentos
+        function renderMedications() {
+            const container = document.getElementById('medicationsContainer');
+            
+            if (medications.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-list">
+                        <div class="empty-list-icon">💊</div>
+                        <p>Nenhum medicamento cadastrado.</p>
+                        <p>Adicione acima os seus medicamentos.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = medications.map((med, index) => `
+                <div class="medication-item pending" id="med-${index}">
+                    <div class="medication-info">
+                        <div class="medication-name">${med.name}</div>
+                        <div class="medication-dosage">${med.dosage}</div>
+                        ${med.notes ? `<div class="medication-dosage">${med.notes}</div>` : ''}
+                    </div>
+                    <div class="medication-time">
+                        <span class="medication-time-icon">⏰</span>
+                        <span>${med.times.join(', ')}</span>
+                    </div>
+                    <div>
+                        <button class="btn-take" onclick="markAsTaken(${index})">✓ Tomado</button>
+                        <button class="btn-delete" onclick="deleteMedication(${index})">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Adicionar medicamento
+        document.getElementById('medicationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('medName').value.trim();
+            const dosage = document.getElementById('medDosage').value.trim();
+            const notes = document.getElementById('medNotes').value.trim();
+            
+            // Coletar horários
+            const times = [];
+            if (document.getElementById('medTime1').value) times.push(document.getElementById('medTime1').value);
+            if (document.getElementById('medTime2').value) times.push(document.getElementById('medTime2').value);
+            if (document.getElementById('medTime3').value) times.push(document.getElementById('medTime3').value);
+            if (document.getElementById('medTime4').value) times.push(document.getElementById('medTime4').value);
+            
+            if (times.length === 0) {
+                alert('Por favor, adicione pelo menos um horário.');
+                return;
+            }
+            
+            // Ordenar horários
+            times.sort();
+            
+            const medication = {
+                name,
+                dosage,
+                times,
+                notes,
+                createdAt: new Date().toISOString()
+            };
+            
+            medications.push(medication);
+            localStorage.setItem('medicamentos', JSON.stringify(medications));
+            
+            // Limpar formulário
+            document.getElementById('medicationForm').reset();
+            
+            // Renderizar lista
+            renderMedications();
+            
+            // Mostrar notificação
+            showNotification('Medicamento adicionado com sucesso!', 'success');
+        });
+        
+        // Marcar como tomado
+        function markAsTaken(index) {
+            const medElement = document.getElementById(`med-${index}`);
+            const btn = medElement.querySelector('.btn-take');
+            
+            if (!medElement.classList.contains('taken')) {
+                medElement.classList.remove('pending');
+                medElement.classList.add('taken');
+                btn.classList.add('taken');
+                btn.textContent = '✓ Tomado';
+                showNotification('Medicamento marcado como tomado!', 'success');
+            }
+        }
+        
+        // Excluir medicamento
+        function deleteMedication(index) {
+            if (confirm('Tem certeza que deseja excluir este medicamento?')) {
+                medications.splice(index, 1);
+                localStorage.setItem('medicamentos', JSON.stringify(medications));
+                renderMedications();
+                showNotification('Medicamento excluído.', 'warning');
+            }
+        }
+        
+        // Mostrar notificação
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+        
+        // Verificar lembretes
+        function checkReminders() {
+            const now = new Date();
+            const currentTime = now.toTimeString().substring(0, 5);
+            
+            medications.forEach((med, index) => {
+                if (med.times.includes(currentTime)) {
+                    showNotification(`⏰ Hora de tomar: ${med.name} (${med.dosage})`, 'warning');
+                }
+            });
+        }
+        
+        // Verificar a cada minuto
+        setInterval(checkReminders, 60000);
+        
+        // Renderizar ao carregar
+        renderMedications();
+    </script>
+</body>
+</html>
+

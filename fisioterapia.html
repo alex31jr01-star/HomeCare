@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fisioterapia - HomeCare</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .page-content {
+            padding: 120px 0 80px;
+            min-height: 100vh;
+        }
+        .service-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .service-header h1 {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        .service-header p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .service-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        .detail-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        .detail-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+        .detail-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        .detail-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        .detail-card li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        .detail-card li::before {
+            content: "✓";
+            color: var(--secondary-color);
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 30px;
+            padding: 10px 20px;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: var(--transition);
+        }
+        .back-btn:hover {
+            background: var(--primary-dark);
+        }
+        .cta-section {
+            text-align: center;
+            margin-top: 60px;
+            padding: 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 10px;
+            color: white;
+        }
+        .cta-section h2 {
+            margin-bottom: 15px;
+        }
+        .cta-section p {
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">HomeCare</h1>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="index.html#servicos">Serviços</a></li>
+                    <li><a href="index.html#sobre">Sobre Nós</a></li>
+                    <li><a href="index.html#contato">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Content -->
+    <section class="page-content">
+        <div class="container">
+            <a href="index.html#servicos" class="back-btn">← Voltar aos Serviços</a>
+            
+            <div class="service-header">
+                <h1>Fisioterapia Domiciliar</h1>
+                <p>Reabilitação e fisioterapia no conforto do seu lar. Nossos fisioterapeutas são especializados em diferentes áreas e utilizam técnicas modernas para garantir a recuperação dos pacientes.</p>
+            </div>
+
+<div class="service-details">
+                <div class="detail-card">
+                    <h3>Tratamentos</h3>
+                    <ul>
+                        <li>Fisioterapia ortopédica</li>
+                        <li>Fisioterapia neurológica</li>
+                        <li>Reabilitação pós-AVC</li>
+                        <li>Tratamento de artrose</li>
+                        <li>Fisioterapia respiratória</li>
+                        <li>Reabilitação de fraturas</li>
+                    </ul>
+                </div>
+
+                <div class="detail-card">
+                    <h3>Técnicas Utilizadas</h3>
+                    <ul>
+                        <li>Liberação miofascial</li>
+                        <li>Kinesioterapia</li>
+                        <li>Exercícios terapêuticos</li>
+                        <li>Terapia manual</li>
+                        <li>Eletroterapia</li>
+                        <li>Terapia ocupacional</li>
+                    </ul>
+                </div>
+
+                <div class="detail-card">
+                    <h3>Indicações</h3>
+                    <ul>
+                        <li>Acidentes vasculares</li>
+                        <li>Cirurgias ortopédicas</li>
+                        <li>Doenças neurodegenerativas</li>
+                        <li>Artrose e artrite</li>
+                        <li>Lesões esportivas</li>
+                        <li>Dores crônicas</li>
+                    </ul>
+                </div>
+
+                <div class="detail-card">
+                    <h3>Beneficios</h3>
+                    <ul>
+                        <li>Recuperação mais rápida</li>
+                        <li>Tratamento no lar</li>
+                        <li>Atendimento personalizado</li>
+                        <li>Melhora da mobilidade</li>
+                        <li>Redução de dores</li>
+                        <li>Maior independência</li>
+                    </ul>
+                </div>
+
+                <div class="detail-card">
+                    <h3>Equipamentos</h3>
+                    <ul>
+                        <li>Aparelhos de eletroterapia</li>
+                        <li>Kit de exercícios</li>
+                        <li>Bolas de pilates</li>
+                        <li>Halteres terapêuticos</li>
+                        <li>Faixas elásticas</li>
+                        <li>Recursos de calor e frio</li>
+                    </ul>
+                </div>
+
+                <div class="detail-card">
+                    <h3>Programa de Tratamento</h3>
+                    <ul>
+                        <li>Avaliação inicial completa</li>
+                        <li>Plano personalizado</li>
+                        <li>Sessões de 60 minutos</li>
+                        <li>Exercícios para casa</li>
+                        <li>Acompanhamento evolução</li>
+                        <li>Relatórios periódicos</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <h2>Precisa de fisioterapia em casa?</h2>
+                <p>Nossos fisioterapeutas podem ajudar na sua reabilitação.</p>
+                <a href="index.html#contato" class="btn btn-primary">Fale Conosco</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 HomeCare. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>

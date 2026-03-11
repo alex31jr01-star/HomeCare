@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terapia Ocupacional - HomeCare</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .page-content {
+            padding: 120px 0 80px;
+            min-height: 100vh;
+        }
+        .service-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .service-header h1 {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        .service-header p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .service-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        .detail-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        .detail-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+        .detail-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        .detail-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        .detail-card li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        .detail-card li::before {
+            content: "✓";
+            color: var(--secondary-color);
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 30px;
+            padding: 10px 20px;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: var(--transition);
+        }
+        .back-btn:hover {
+            background: var(--primary-dark);
+        }
+        .cta-section {
+            text-align: center;
+            margin-top: 60px;
+            padding: 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 10px;
+            color: white;
+        }
+        .cta-section h2 {
+            margin-bottom: 15px;
+        }
+        .cta-section p {
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">HomeCare</h1>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="servicos.html">Serviços</a></li>
+                    <li><a href="index.html#sobre">Sobre Nós</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Content -->
+    <section class="page-content">
+        <div class="container">
+            <a href="servicos.html" class="back-btn">← Voltar aos Serviços</a>
+            
+            <div class="service-header">
+                <h1>Terapia Ocupacional</h1>
+                <p>Reabilitação funcional para ajudar o idoso a realizar atividades do dia a dia com autonomia e independência.</p>
+            </div>
+
+            <div class="service-details">
+                <div class="detail-card">
+                    <h3>O que é Terapia Ocupacional?</h3>
+                    <ul>
+                        <li>Reabilitação funcional</li>
+                        <li>Atividades da vida diária</li>
+                        <li>Promoção de autonomia</li>
+                        <li>Adaptações para independência</li>
+                        <li>Prevenção de quedas</li>
+                        <li>Melhoria da qualidade de vida</li>
+                    </ul>
+                </div>
+
+                <div class="detail-card">
+                    <h3>Serviços Oferecidos</h3>
+                    <ul>
+                        <li>Reabilitação motora</li>
+                        <li>Atividades da vida diária</li>
+                        <li>Prevenção de quedas</li>
+                        <li>Adaptações para independência</li>
+                        <li>Estimulação cognitiva</li>
+                        <li>Órteses e próteses</li>
+                    </ul>
+                </div>
+
+                <div class="detail-card">
+                    <h3>Quando Contratar?</h3>
+                    <ul>
+                        <li>Após AVC ou derrame</li>
+                        <li>Fraturas e internações</li>
+                        <li>Perda de autonomia</li>
+                        <li>Quedas frequentes</li>
+                        <li>Demência ou Alzheimer</li>
+                        <li>Paralisia ou limitação motora</li>
+                    </ul>
+                </div>
+
+                <div class="detail-card">
+                    <h3>Benefícios</h3>
+                    <ul>
+                        <li>Maior independência</li>
+                        <li>Recuperação motora</li>
+                        <li>Prevenção de complicações</li>
+                        <li>Melhoria da autoestima</li>
+                        <li>Segurança em casa</li>
+                        <li>Qualidade de vida</li>
+                    </ul>
+                </div>
+
+                <div class="detail-card">
+                    <h3>Atividades Realizadas</h3>
+                    <ul>
+                        <li>Exercícios de coordenação</li>
+                        <li>Treino de atividades diárias</li>
+                        <li>Adaptação de ambiente</li>
+                        <li>Uso de auxiliares de marcha</li>
+                        <li>Exercícios de fortalecimento</li>
+                        <li>Treino de equilíbrio</li>
+                    </ul>
+                </div>
+
+                <div class="detail-card">
+                    <h3>Abordagem</h3>
+                    <ul>
+                        <li>Avaliação funcional completa</li>
+                        <li>Plano de tratamento individual</li>
+                        <li>Atividades significativas</li>
+                        <li>Treino no ambiente doméstico</li>
+                        <li>Orientação para cuidadores</li>
+                        <li>Seguimento regular</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <h2>Precisa de terapia ocupacional?</h2>
+                <p>Nossa equipe está pronta para ajudar você ou seu familiar a recuperar a independência.</p>
+                <a href="agendar-consulta.html" class="btn btn-primary" style="background: white; color: var(--primary-color);">Agendar Consulta</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 HomeCare. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>
+

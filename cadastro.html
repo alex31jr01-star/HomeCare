@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - HomeCare</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .auth-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 20px;
+        }
+        
+        .auth-container {
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            min-height: 600px;
+        }
+        
+        .auth-forms-container {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+.auth-image-container {
+            flex: 1;
+            background-image: url('https://images.unsplash.com/photo-1516307365426-bea591f05011?w=600&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+        
+        .auth-image-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.85), rgba(189, 195, 199, 0.75));
+            z-index: 1;
+        }
+        
+        .auth-image-container > * {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .auth-image-container h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        
+        .auth-image-container p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+        
+        .auth-logo {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+        
+        .form-title {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .form-subtitle {
+            color: var(--text-light);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+.form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: white;
+        }
+        
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+        
+        .btn-register {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            background: var(--secondary-color);
+            color: var(--text-color);
+        }
+        
+        .btn-register:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        .auth-switch {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--text-light);
+        }
+        
+        .auth-switch a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .auth-switch a:hover {
+            text-decoration: underline;
+        }
+        
+        .back-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: white;
+            color: var(--primary-color);
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+        
+        .back-home:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-color);
+        }
+        
+        .checkbox-group label {
+            margin: 0;
+            font-weight: 400;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .auth-image-container {
+                display: none;
+            }
+            
+            .auth-container {
+                max-width: 450px;
+            }
+            
+            .auth-forms-container {
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-home">← Voltar ao Início</a>
+    
+    <div class="auth-page">
+        <div class="auth-container">
+            <!-- Image Side -->
+            <div class="auth-image-container">
+                <div class="auth-logo">🏥</div>
+                <h2>Junte-se ao HomeCare</h2>
+                <p>Crie sua conta e receba os melhores cuidados em casa.</p>
+            </div>
+            
+            <!-- Form Side -->
+            <div class="auth-forms-container">
+                <h1 class="form-title">Cadastrar</h1>
+                <p class="form-subtitle">Crie sua conta</p>
+                
+<form class="auth-form" onsubmit="event.preventDefault(); cadastrar();">
+                    <div class="form-group">
+                        <label for="registerType">Tipo de Conta</label>
+                        <select id="registerType" required>
+                            <option value="">Selecione o tipo de conta</option>
+                            <option value="idoso">Idoso</option>
+                            <option value="cuidador">Cuidador</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerName">Nome Completo</label>
+                        <input type="text" id="registerName" placeholder="Seu nome completo" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerCPF">CPF</label>
+                        <input type="text" id="registerCPF" placeholder="000.000.000-00" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerEmail">E-mail</label>
+                        <input type="email" id="registerEmail" placeholder="Seu e-mail" required>
+                    </div>
+                    
+<div class="form-group">
+                        <label for="registerPhone">Telefone</label>
+                        <input type="tel" id="registerPhone" placeholder="(00) 00000-0000" oninput="mascaraTelefone(this)">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerAddress">Endereço</label>
+                        <input type="text" id="registerAddress" placeholder="Rua, número, bairro, cidade">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerPassword">Senha</label>
+                        <input type="password" id="registerPassword" placeholder="Crie uma senha" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerConfirmPassword">Confirmar Senha</label>
+                        <input type="password" id="registerConfirmPassword" placeholder="Confirme sua senha" required>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="terms" required>
+                        <label for="terms">Eu aceito os Termos de Uso e Política de Privacidade</label>
+                    </div>
+                    
+                    <button type="submit" class="btn-register">Cadastrar</button>
+                </form>
+                
+                <div class="auth-switch">
+                    <p>Já tem uma conta? <a href="login.html">Entrar</a></p>
+                </div>
+</div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

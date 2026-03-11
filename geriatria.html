@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geriatria - HomeCare</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .page-content {
+            padding: 120px 0 80px;
+            min-height: 100vh;
+        }
+        .service-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .service-header h1 {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        .service-header p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .service-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        .detail-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        .detail-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+        .detail-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        .detail-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        .detail-card li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        .detail-card li::before {
+            content: "✓";
+            color: var(--secondary-color);
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 30px;
+            padding: 10px 20px;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: var(--transition);
+        }
+        .back-btn:hover {
+            background: var(--primary-dark);
+        }
+        .cta-section {
+            text-align: center;
+            margin-top: 60px;
+            padding: 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 10px;
+            color: white;
+        }
+        .cta-section h2 {
+            margin-bottom: 15px;
+        }
+        .cta-section p {
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">HomeCare</h1>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="servicos.html">Serviços</a></li>
+                    <li><a href="index.html#sobre">Sobre Nós</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Content -->
+    <section class="page-content">
+        <div class="container">
+            <a href="servicos.html" class="back-btn">← Voltar aos Serviços</a>
+            
+            <div class="service-header">
+                <h1>Geriatria</h1>
+                <p>Especialidade médica focada na saúde do idoso, com acompanhamento completo e prevenção de doenças relacionadas ao envelhecimento.</p>
+            </div>
+
+            <div class="service-details">
+                <div class="detail-card">
+                    <h3>O que é Geriatria?</h3>
+                    <ul>
+                        <li>Especialidade médica para idosos</li>
+                        <li>Prevenção de doenças</li>
+                        <li>Avaliação global do paciente</li>
+                        <li>Tratamento de doenças crônicas</li>
+                        <li>Melhoria da qualidade de vida</li>
+                        <li>Acompanhamento integrado</li>
+                    </ul>
+                </div>
+
+                <div class="detail-card">
+                    <h3>Serviços Oferecidos</h3>
+                    <ul>
+                        <li>Avaliação geriátrica completa</li>
+                        <li>Prevenção de quedas</li>
+                        <li>Gerenciamento de medicamentos</li>
+                        <li>Acompanhamento de doenças crônicas</li>
+                        <li>Cuidados com demência</li>
+                        <li>Orientação familiar</li>
+                    </ul>
+                </div>
+
+                <div class="detail-card">
+                    <h3>Quando Contratar?</h3>
+                    <ul>
+                        <li>Idosos com múltiplas doenças</li>
+                        <li>Perda de memória ou confusão</li>
+                        <li>Quedas frequentes</li>
+                        <li>Polifarmácia (muitos medicamentos)</li>
+                        <li>Perda de autonomia</li>
+                        <li>necessidade de acompanhamento especializado</li>
+                    </ul>
+                </div>
+
+                <div class="detail-card">
+                    <h3>Benefícios</h3>
+                    <ul>
+                        <li>Avaliação completa e global</li>
+                        <li>Prevenção de complicações</li>
+                        <li>Maior qualidade de vida</li>
+                        <li>Apoio à família</li>
+                        <li>Redução de hospitalizações</li>
+                        <li>Coordenação do cuidado</li>
+                    </ul>
+                </div>
+
+                <div class="detail-card">
+                    <h3>Equipe Profissional</h3>
+                    <ul>
+                        <li>Médicos geriatras</li>
+                        <li>Enfermeiros especializados</li>
+                        <li>Fisioterapeutas</li>
+                        <li>Neuropsicólogos</li>
+                        <li>Assistentes sociais</li>
+                        <li>Nutricionistas</li>
+                    </ul>
+                </div>
+
+                <div class="detail-card">
+                    <h3>Abordagem</h3>
+                    <ul>
+                        <li>Visão holística do paciente</li>
+                        <li>Atendimento humanizado</li>
+                        <li>Plano de cuidados individualizado</li>
+                        <li>Trabalho em equipe multidisciplinar</li>
+                        <li>Integração familiar</li>
+                        <li>Seguimento regular</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <h2>Precisa de cuidados geriátricos?</h2>
+                <p>Nossa equipe está pronta para atender você ou seu familiar com todo o cuidado e profissionalismo.</p>
+                <a href="agendar-consulta.html" class="btn btn-primary" style="background: white; color: var(--primary-color);">Agendar Consulta</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 HomeCare. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>
+

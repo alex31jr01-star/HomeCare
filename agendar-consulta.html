@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendar Consulta - HomeCare</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .dashboard-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #A9D6E5 0%, #61A5C2 50%, #2C7DA0 100%);
+        }
+        
+        .dashboard-header {
+            background: var(--white);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dashboard-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            font-family: 'Nunito', sans-serif;
+        }
+        
+        .dashboard-logo a {
+            text-decoration: none;
+            color: var(--primary-color);
+        }
+        
+        .dashboard-user {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .back-btn {
+            padding: 10px 20px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+        
+        .back-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .dashboard-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .page-title {
+            text-align: center;
+            color: white;
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+        }
+        
+        .page-subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+        
+        .booking-form {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .form-section {
+            margin-bottom: 35px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .form-section:last-child {
+            border-bottom: none;
+        }
+        
+        .form-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Nunito', sans-serif;
+        }
+        
+        .form-section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .step-number {
+            background: var(--primary-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        
+        .form-group label .optional {
+            font-weight: 400;
+            color: #999;
+            font-size: 0.9rem;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .form-row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .services-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 15px;
+        }
+        
+        .service-option {
+            padding: 20px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .service-option:hover {
+            border-color: var(--primary-color);
+            background: #f8f9fa;
+            transform: translateY(-3px);
+        }
+        
+        .service-option.selected {
+            border-color: var(--primary-color);
+            background: #e3f2fd;
+        }
+        
+        .service-option-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .service-option-name {
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 0.95rem;
+        }
+        
+        /* Dynamic Service Types - Hidden by default */
+        .service-types-container {
+            display: none;
+            margin-top: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .service-types-container.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .service-types-container h4 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .service-type-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+        
+        .service-type-option {
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            background: white;
+        }
+        
+        .service-type-option:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        .service-type-option.selected {
+            border-color: var(--primary-color);
+            background: #e3f2fd;
+        }
+        
+        .service-type-option-name {
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 5px;
+        }
+        
+        .service-type-option-desc {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+        
+        .service-type-option-price {
+            font-size: 0.9rem;
+            color: #27ae60;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        
+        .priority-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        
+        .priority-btn {
+            padding: 20px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .priority-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .priority-btn.selected {
+            border-color: var(--primary-color);
+        }
+        
+        .priority-btn.urgente.selected {
+            background: #e74c3c;
+            border-color: #e74c3c;
+            color: white;
+        }
+        
+        .priority-btn.normal.selected {
+            background: #3498DB;
+            border-color: #3498DB;
+            color: white;
+        }
+        
+        .priority-btn.programado.selected {
+            background: #27ae60;
+            border-color: #27ae60;
+            color: white;
+        }
+        
+        .priority-icon {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+        
+        .priority-name {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        
+        .priority-time {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+        
+        .date-time-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .time-slot {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        
+        .time-slot:hover {
+            border-color: var(--primary-color);
+        }
+        
+        .time-slot.selected {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 20px;
+        }
+        
+        .submit-btn:hover {
+            background: #219a52;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(39, 174, 96, 0.4);
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, #e3f2fd, #f0f7ff);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            color: var(--primary-color);
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .info-box strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .info-box ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .info-box li {
+            margin-bottom: 5px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .checkbox-item:hover {
+            border-color: var(--primary-color);
+        }
+        
+        .checkbox-item input {
+            width: auto;
+        }
+        
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .success-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            animation: bounce 0.6s ease;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .success-title {
+            color: #27ae60;
+            font-size: 2rem;
+            margin-bottom: 15px;
+            font-family: 'Nunito', sans-serif;
+        }
+        
+        .success-text {
+            color: var(--text-light);
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .success-details {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+        
+        .success-details h4 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .success-details p {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .success-details span {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        
+        .contact-preference {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .contact-option {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .contact-option:hover {
+            border-color: var(--primary-color);
+        }
+        
+        .contact-option.selected {
+            border-color: var(--primary-color);
+            background: #e3f2fd;
+        }
+        
+        .selected-service-display {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .selected-service-display.active {
+            display: flex;
+        }
+        
+        .selected-service-display .icon {
+            font-size: 1.5rem;
+        }
+        
+        .selected-service-display .info {
+            flex: 1;
+        }
+        
+        .selected-service-display .service-name {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .selected-service-display .service-type {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .selected-service-display .change-btn {
+            color: #e74c3c;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row, .form-row-3, .priority-options, .contact-preference {
+                grid-template-columns: 1fr;
+            }
+            
+            .time-slots {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .services-options {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .service-type-options {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .services-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .booking-form {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-page">
+        <header class="dashboard-header">
+            <div class="dashboard-logo">
+                <a href="index.html">🏥 HomeCare</a>
+            </div>
+            <div class="dashboard-user">
+                <a href="index.html" class="back-btn">← Voltar</a>
+            </div>
+        </header>
+        
+        <div class="dashboard-container">
+            <h1 class="page-title">Agendar Consulta</h1>
+            <p class="page-subtitle">Selecione o serviço necessário e veja as opções disponíveis</p>
+            
+            <div class="booking-form" id="bookingForm">
+                <div class="info-box">
+                    <strong>📋 Como funciona:</strong>
+                    <ul>
+                        <li>Escolha o tipo de serviço que você precisa</li>
+                        <li>Selecione o serviço específico desejado</li>
+                        <li>Preencha os dados do paciente</li>
+                        <li>Escolha data, horário e prioridade</li>
+                    </ul>
+                </div>
+                
+                <!-- Step 1: Choose Service -->
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <span class="step-number">1</span>
+                        <h3>Escolha o Serviço</h3>
+                    </div>
+                    <div class="services-options">
+                        <div class="service-option" onclick="selectService('enfermagem', 'Enfermagem', '👨‍⚕️')">
+                            <div class="service-option-icon">👨‍⚕️</div>
+                            <div class="service-option-name">Enfermagem</div>
+                        </div>
+                        <div class="service-option" onclick="selectService('fisioterapia', 'Fisioterapia', '💪')">
+                            <div class="service-option-icon">💪</div>
+                            <div class="service-option-name">Fisioterapia</div>
+                        </div>
+                        <div class="service-option" onclick="selectService('acompanhamento', 'Acompanhamento', '🤝')">
+                            <div class="service-option-icon">🤝</div>
+                            <div class="service-option-name">Acompanhamento</div>
+                        </div>
+                        <div class="service-option" onclick="selectService('paliativos', 'Cuidados Paliativos', '💚')">
+                            <div class="service-option-icon">💚</div>
+                            <div class="service-option-name">Cuidados Paliativos</div>
+                        </div>
+                        <div class="service-option" onclick="selectService('geriatria', 'Geriatria', '👴')">
+                            <div class="service-option-icon">👴</div>
+                            <div class="service-option-name">Geriatria</div>
+                        </div>
+                        <div class="service-option" onclick="selectService('terapia-ocupacional', 'Terapia Ocupacional', '🎯')">
+                            <div class="service-option-icon">🎯</div>
+                            <div class="service-option-name">Terapia Ocupacional</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Dynamic Service Types - Shows based on selection -->
+                    <div id="serviceTypesEnfermagem" class="service-types-container">
+                        <h4>👨‍⚕️ Serviços de Enfermagem Disponíveis</h4>
+                        <div class="service-type-options">
+                            <div class="service-type-option" onclick="selectServiceType('enfermagem-24h', 'Atendimento 24h', 'Monitoramento completo e administração de medicamentos', 'R$ 350/dia')">
+                                <div class="service-type-option-name">Atendimento 24h</div>
+                                <div class="service-type-option-desc">Monitoramento completo + medicamentos</div>
+                                <div class="service-type-option-price">R$ 350/dia</div>
+                            </div>
+                            <div class="service-type-option" onclick="selectServiceType('enfermagem-12h', 'Atendimento 12h', 'Cuidados durante meio período', 'R$ 200/dia')">
+                                <div class="service-type-option-name">Atendimento 12h</div>
+                                <div class="service-type-option-desc">Manhã ou Tarde</div>
+                                <div class="service-type-option-price">R$ 200/dia</div>
+                            </div>
+                            <div class="service-type-option" onclick="selectServiceType('curativos', 'Curativos Especializados', 'Tratamento de feridas e curativos', 'R$ 80/visita')">
+                                <div class="service-type-option-name">Curativos Especializados</div>
+                                <div class="service-type-option-desc">Tratamento de feridas</div>
+                                <div class="service-type-option-price">R$ 80/visita</div>
+                            </div>
+                            <div class="service-type-option" onclick="selectServiceType('aplicacao-med', 'Aplicação de Medicamentos', 'Aplicação de remédios injetáveis', 'R$ 30/visita')">
+                                <div class="service-type-option-name">Aplicação de Medicamentos</div>
+                                <div class="service-type-option-desc">Injetáveis e soro</div>
+                                <div class="service-type-option-price">R$ 30/visita</div>
+                            </div>
+                            <div class="service-type-option" onclick="selectServiceType('coleta-exames', 'Coleta de Exames', 'Coleta de sangue no domicílio', 'R$ 50/visita')">
+                                <div class="service-type-option-name">Coleta de Exames</div>
+                                <div class="service-type-option-desc">Exames de sangue</div>
+                                <div class="service-type-option-price">R$ 50/visita</div>
+                            </div>
+                            <div class="service-type-option" onclick="selectServiceType('sonda-cateter', 'Sonda e Cateter', 'Troca e manejo de sondas', 'R$ 60/visita')">
+                                <div class="service-type-option-name">Sonda e Cateter</div>
+                                <div class="service-type-option-desc">Troca e manejo</div>
+                                <div class="service-type-option-price">R$ 60/visita</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="serviceTypesFisioterapia" class="service-types-container">
+                        <h4>💪 Serviços de Fisioterapia Disponíveis</h4>
+                        <div class="service-type-options">
+                            <div class="service-type-option" onclick="selectServiceType('fisio-respiratoria', 'Fisioterapia Respiratória', 'Tratamento de problemas pulmonares', 'R$ 120/visita')">
+                                <div class="service-type-option-name">Fisioterapia Respiratória</div>
+                                <div class="service-type-option-desc">Desobstrução bronchial</div>
+                                <div class="service-type-option-price">R$ 120/visita</div>
+                            </div>
+                            <div class="service-type-option" onclick="selectServiceType('fisio-motora', 'Fisioterapia Motora', 'Reabilitação de movimentos', 'R$ 120/visita')">
+                                <div class="service-type-option-name">Fisioterapia Motora</div>
+                                <div class="service-type-option-desc">Recuperação motora</div>
+                                <div class="service-type-option-price">R$ 120/visita</div>
+                            </div>
+                            <div class="service-type-option" onclick="selectServiceType('fisio-neuro', 'Fisioterapia Neurológica', 'Tratamento de AVC, Parkinson, etc', 'R$ 150/visita')">
+                                <div class="service-type-option-name">Fisioterapia Neurológica</div>
+                                <div class="service-type-option-desc">AVC, Parkinson, Alzheimer</div>
+                                <div class="service-type-option-price">R$ 150/visita</div>
+                            </div>
+                            <div class="service-type-option" onclick="selectServiceType('fisio-geriativa', 'Fisioterapia Geriátrica', 'Para idosos', 'R$ 110/visita')">
+                                <div class="service-type-option-name">Fisioterapia Geriátrica</div>
+                                <div class="service-type-option-desc">Idosos e prevenção de quedas</div>
+                                <div class="service-type-option-price">R$ 110/visita</div>
+                            </div>
+                            <div class="service-type-option" onclick="selectServiceType('fisio-pos-cirurgica', 'Pós-Cirúrgica', 'Recuperação pós-operatória', 'R$ 130/visita')">
+                                <div class="service-type-option-name">Pós-Cirúrgica</div>
+                                <div class="service-type-option-desc">Recuperação de cirurgias</div>
+                                <div class="service-type-option-price">R$ 130/visita</div>
+                            </div>
+                            <div class="service-type-option" onclick="selectServiceType('fisio-pacote', 'Pacote Mensal', '4 visitas mensais', 'R$ 400/mês')">
+                                <div class="service-type-option-name">Pacote Mensal</div>
+                                <div class="service-type-option-desc">4 visitas por mês</div>
+                                <div class="service-type-option-price">R$ 400/mês</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="serviceTypesAcompanhamento" class="service-types-container">
+                        <h4>🤝 Serviços de Acompanhamento Disponíveis</h4>
+                        <div class="service-type-options">
+                            <div class="service-type-option" onclick="selectServiceType('acompanhamento-24h', 'Acompanhamento 24h', 'Caregiver dedicado tempo integral', 'R$ 280/dia')">
+                                <div class="service-type-option-name">Acompanhamento 24h</div>
+                                <div class="service-type-option-desc">Caregiver dedicado</div>
+                                <div class="service-type-option-price">R$ 280/dia</div>
+                            </div>
+                            <div class="service-type-option" onclick="selectServiceType('acompanhamento-12h', 'Acompanhamento 12h', 'Caregiver meio período', 'R$ 160/dia')">
+                                <div class="service-type-option-name">Acompanhamento 12h</div>
+                                <div class="service-type-option-desc">Manhã ou Tarde</div>
+                                <div class="service-type-option-price">R$ 160/dia</div>
+                            </div>
+                            <div class="service-type-option" onclick="selectServiceType('acompanhamento-noturno', 'Acompanhamento Noturno', 'Durante a noite', 'R$ 180/dia')">
+                                <div class="service-type-option-name">Acompanhamento Noturno</div>
+                                <div class="service-type-option-desc">22h às 06h</div>
+                                <div class="service-type-option-price">R$ 180/dia</div>
+                            </div>
+                            <div class="service-type-option" onclick="selectServiceType('acompanhamento-fim-semana', 'Fim de Semana', 'Sábados e domingos', 'R$ 350/dia')">
+                                <div class="service-type-option-name">Fim de Semana</div>
+                                <div class="service-type-option-desc">Sábados e domingos</div>
+                                <div class="service-type-option-price">R$ 350/dia</div>
+                            </div>
+                            <div class="service-type-option" onclick="selectServiceType('acompanhamento-idoso', 'Companhia para Idoso', 'Acompanhamento e socialização', 'R$ 100/visita')">
+                                <div class="service-type-option-name">Companhia para Idoso</div>
+                                <div class="service-type-option-desc">2-4 horas</div>
+                                <div class="service-type-option-price">R$ 100/visita</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="serviceTypesPaliativos" class="service-types-container">
+                        <h4>💚 Cuidados Paliativos Disponíveis</h4>
+                        <div class="service-type-options">
+                            <div class="service-type-option" onclick="selectServiceType('paliativos-24h', 'Acompanhamento Paliativo 24h', 'Cuidado integral e humanizado', 'R$ 400/dia')">
+                                <div class="service-type-option-name">Acompanhamento 24h</div>
+                                <div class="service-type-option-desc">Cuidado integral</div>
+                                <div class="service-type-option-price">R$ 400/dia</div>
+                            </div>
+                            <div class="service-type-option" onclick="selectServiceType('paliativos-visita', 'Visita Paliativa', 'Apoio e orientações', 'R$ 150/visita')">
+                                <div class="service-type-option-name">Visita Paliativa</div>
+                                <div class="service-type-option-desc">Apoio e orientações</div>
+                                <div class="service-type-option-price">R$ 150/visita</div>
+                            </div>
+                            <div class="service-type-option" onclick="selectServiceType('paliativos-enfermagem', 'Enfermagem Paliativa', 'Cuidados especializados', 'R$ 350/dia')">
+                                <div class="service-type-option-name">Enfermagem Paliativa</div>
+                                <div class="service-type-option-desc">Cuidados especializados</div>
+                                <div class="service-type-option-price">R$ 350/dia</div>
+                            </div>
+                            <div class="service-type-option" onclick="selectServiceType('paliativos-psicologo', 'Apoio Psicológico', 'Para paciente e família', 'R$ 120/visita')">
+                                <div class="service-type-option-name">Apoio Psicológico</div>
+                                <div class="service-type-option-desc">Paciente e família</div>
+                                <div class="service-type-option-price">R$ 120/visita</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="serviceTypesGeriatria" class="service-types-container">
+                        <h4>👴 Serviços de Geriatria Disponíveis</h4>
+                        <div class="service-type-options">
+                            <div class="service-type-option" onclick="selectServiceType('geriatria-consulta', 'Consulta Geriátrica', 'Avaliação completa', 'R$ 300/visita')">
+                                <div class="service-type-option-name">Consulta Geriátrica</div>
+                                <div class="service-type-option-desc">Avaliação completa</div>
+                                <div class="service-type-option-price">R$ 300/visita</div>
+                            </div>
+                            <div class="service-type-option" onclick="selectServiceType('geriatria-avalicao', 'Avaliação Geriátrica Ampla', 'Check-up completo', 'R$ 450/visita')">
+                                <div class="service-type-option-name">Avaliação Geriátrica Ampla</div>
+                                <div class="service-type-option-desc">Check-up completo</div>
+                                <div class="service-type-option-price">R$ 450/visita</div>
+                            </div>
+                            <div class="service-type-option" onclick="selectServiceType('geriatria-acompanhamento', 'Acompanhamento Mensal', 'Visitas regulares', 'R$ 250/mês')">
+                                <div class="service-type-option-name">Acompanhamento Mensal</div>
+                                <div class="service-type-option-desc">Visitas regulares</div>
+                                <div class="service-type-option-price">R$ 250/mês</div>
+                            </div>
+                            <div class="service-type-option" onclick="selectServiceType('geriatria-relatorio', 'Relatório Geriátrico', 'Documentação completa', 'R$ 500')">
+                                <div class="service-type-option-name">Relatório Geriátrico</div>
+                                <div class="service-type-option-desc">Documentação completa</div>
+                                <div class="service-type-option-price">R$ 500</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="serviceTypesTerapiaOcupacional" class="service-types-container">
+                        <h4>🎯 Terapia Ocupacional Disponíveis</h4>
+                        <div class="service-type-options">
+                            <div class="service-type-option" onclick="selectServiceType('to-avalicao', 'Avaliação Funcional', 'Análise de capacidades', 'R$ 180/visita')">
+                                <div class="service-type-option-name">Avaliação Funcional</div>
+                                <div class="service-type-option-desc">Análise de capacidades</div>
+                                <div class="service-type-option-price">R$ 180/visita</div>
+                            </div>
+                            <div class="service-type-option" onclick="selectServiceType('to-reabilitacao', 'Reabilitação Funcional', 'Recuperação de atividades', 'R$ 130/visita')">
+                                <div class="service-type-option-name">Reabilitação Funcional</div>
+                                <div class="service-type-option-desc">Atividades diárias</div>
+                                <div class="service-type-option-price">R$ 130/visita</div>
+                            </div>
+                            <div class="service-type-option" onclick="selectServiceType('to-cognitiva', 'Estimulação Cognitiva', 'Memória e atenção', 'R$ 120/visita')">
+                                <div class="service-type-option-name">Estimulação Cognitiva</div>
+                                <div class="service-type-option-desc">Memória e atenção</div>
+                                <div class="service-type-option-price">R$ 120/visita</div>
+                            </div>
+                            <div class="service-type-option" onclick="selectServiceType('to-prevencao-quedas', 'Prevenção de Quedas', 'Avaliação e adaptação', 'R$ 150/visita')">
+                                <div class="service-type-option-name">Prevenção de Quedas</div>
+                                <div class="service-type-option-desc">Avaliação ambiental</div>
+                                <div class="service-type-option-price">R$ 150/visita</div>
+                            </div>
+                            <div class="service-type-option" onclick="selectServiceType('to-pacote', 'Pacote 4 Visitas', 'Tratamento completo', 'R$ 450')">
+                                <div class="service-type-option-name">Pacote 4 Visitas</div>
+                                <div class="service-type-option-desc">Tratamento completo</div>
+                                <div class="service-type-option-price">R$ 450</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Selected Service Display -->
+                    <div id="selectedServiceDisplay" class="selected-service-display">
+                        <span class="icon" id="displayIcon">👨‍⚕️</span>
+                        <div class="info">
+                            <div class="service-name" id="displayService">Enfermagem</div>
+                            <div class="service-type" id="displayType">Atendimento 24h</div>
+                        </div>
+                        <span class="change-btn" onclick="changeService()">Alterar</span>
+                    </div>
+                </div>
+                
+                <!-- Step 2: Priority -->
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <span class="step-number">2</span>
+                        <h3>Prioridade</h3>
+                    </div>
+                    <div class="priority-options">
+                        <div class="priority-btn urgente" onclick="selectPriority('urgente')">
+                            <div class="priority-icon">🚨</div>
+                            <div class="priority-name">Urgente</div>
+                            <div class="priority-time">Em até 24h</div>
+                        </div>
+                        <div class="priority-btn normal" onclick="selectPriority('normal')">
+                            <div class="priority-icon">⚡</div>
+                            <div class="priority-name">Normal</div>
+                            <div class="priority-time">Em até 3 dias</div>
+                        </div>
+                        <div class="priority-btn programado" onclick="selectPriority('programado')">
+                            <div class="priority-icon">📆</div>
+                            <div class="priority-name">Programado</div>
+                            <div class="priority-time">Agendar para depois</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 3: Patient Data -->
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <span class="step-number">3</span>
+                        <h3>Dados do Paciente</h3>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nome">Nome Completo</label>
+                            <input type="text" id="nome" placeholder="Nome do paciente" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nascimento">Data de Nascimento</label>
+                            <input type="date" id="nascimento" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+<div class="form-group">
+                            <label for="telefone">Telefone</label>
+                            <input type="tel" id="telefone" placeholder="(00) 00000-0000" oninput="mascaraTelefone(this)" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">E-mail <span class="optional">(opcional)</span></label>
+                            <input type="email" id="email" placeholder="seu@email.com">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="endereco">Endereço Completo</label>
+                        <input type="text" id="endereco" placeholder="Rua, número, bairro, cidade" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="observacoes">Observações <span class="optional">(condições de saúde, necessidades especiais)</span></label>
+                        <textarea id="observacoes" rows="3" placeholder="Informe qualquer informação relevante..."></textarea>
+                    </div>
+                </div>
+                
+                <!-- Step 4: Date and Time -->
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <span class="step-number">4</span>
+                        <h3>Data e Horário</h3>
+                    </div>
+                    <div class="date-time-grid">
+                        <div class="form-group">
+                            <label for="data">Data Preferida</label>
+                            <input type="date" id="data" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="periodo">Período</label>
+                            <select id="periodo" required>
+                                <option value="">Selecione...</option>
+                                <option value="manhã">Manhã (08h - 12h)</option>
+                                <option value="tarde">Tarde (12h - 18h)</option>
+                                <option value="noite">Noite (18h - 22h)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Horários Preferidos <span class="optional">(selecione até 2)</span></label>
+                        <div class="time-slots">
+                            <div class="time-slot" onclick="toggleTime(this, '08:00')">08:00</div>
+                            <div class="time-slot" onclick="toggleTime(this, '09:00')">09:00</div>
+                            <div class="time-slot" onclick="toggleTime(this, '10:00')">10:00</div>
+                            <div class="time-slot" onclick="toggleTime(this, '11:00')">11:00</div>
+                            <div class="time-slot" onclick="toggleTime(this, '14:00')">14:00</div>
+                            <div class="time-slot" onclick="toggleTime(this, '15:00')">15:00</div>
+                            <div class="time-slot" onclick="toggleTime(this, '16:00')">16:00</div>
+                            <div class="time-slot" onclick="toggleTime(this, '17:00')">17:00</div>
+                            <div class="time-slot" onclick="toggleTime(this, '18:00')">18:00</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="button" class="submit-btn" onclick="confirmarAgendamento()">✅ Confirmar Agendamento</button>
+            </div>
+            
+            <!-- Success Message -->
+            <div class="booking-form success-message" id="successMessage">
+                <div class="success-icon">🎉</div>
+                <h2 class="success-title">Agendamento Realizado!</h2>
+                <p class="success-text">Sua solicitação foi enviada com sucesso. Nossa equipe entrará em contato em breve para confirmar.</p>
+                
+                <div class="success-details">
+                    <h4>📋 Resumo do Agendamento</h4>
+                    <p><strong>Serviço:</strong> <span id="summaryService">-</span></p>
+                    <p><strong>Tipo:</strong> <span id="summaryType">-</span></p>
+                    <p><strong>Paciente:</strong> <span id="summaryNome">-</span></p>
+                    <p><strong>Data:</strong> <span id="summaryData">-</span></p>
+                    <p><strong>Contato:</strong> <span id="summaryContato">-</span></p>
+                </div>
+                
+                <a href="index.html" class="back-btn" style="display: inline-block;">Voltar para Início</a>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+    <script>
+        let selectedService = null;
+        let selectedServiceType = null;
+        let selectedPriority = null;
+        let selectedTimes = [];
+        
+        // Service types data
+        const serviceTypes = {
+            enfermagem: 'serviceTypesEnfermagem',
+            fisioterapia: 'serviceTypesFisioterapia',
+            acompanhamento: 'serviceTypesAcompanhamento',
+            paliativos: 'serviceTypesPaliativos',
+            geriatria: 'serviceTypesGeriatria',
+            'terapia-ocupacional': 'serviceTypesTerapiaOcupacional'
+        };
+        
+        function selectService(serviceId, serviceName, icon) {
+            // Hide all service type containers
+            document.querySelectorAll('.service-types-container').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            // Remove selection from all options
+            document.querySelectorAll('.service-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selection to clicked option
+            event.currentTarget.classList.add('selected');
+            
+            // Show relevant service types
+            const containerId = serviceTypes[serviceId];
+            if (containerId) {
+                document.getElementById(containerId).classList.add('active');
+            }
+            
+            // Store service
+            selectedService = { id: serviceId, name: serviceName, icon: icon };
+            selectedServiceType = null;
+            
+            // Hide selected display until type is chosen
+            document.getElementById('selectedServiceDisplay').classList.remove('active');
+        }
+        
+        function selectServiceType(typeId, typeName, typeDesc, typePrice) {
+            // Remove selection from all type options
+            document.querySelectorAll('.service-type-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Add selection to clicked option
+            event.currentTarget.classList.add('selected');
+            
+            // Store selected type
+            selectedServiceType = { id: typeId, name: typeName, desc: typeDesc, price: typePrice };
+            
+            // Show selected service display
+            document.getElementById('displayIcon').textContent = selectedService.icon;
+            document.getElementById('displayService').textContent = selectedService.name;
+            document.getElementById('displayType').textContent = typeName + ' - ' + typePrice;
+            document.getElementById('selectedServiceDisplay').classList.add('active');
+            
+            // Hide service type container to clean up
+            const containerId = serviceTypes[selectedService.id];
+            if (containerId) {
+                document.getElementById(containerId).classList.remove('active');
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('agendamentoServico', JSON.stringify({service: selectedService, type: selectedServiceType}));
+        }
+        
+        function changeService() {
+            selectedService = null;
+            selectedServiceType = null;
+            document.getElementById('selectedServiceDisplay').classList.remove('active');
+            
+            document.querySelectorAll('.service-option').forEach(opt => opt.classList.remove('selected'));
+            document.querySelectorAll('.service-type-option').forEach(opt => opt.classList.remove('selected'));
+        }
+        
+        function selectPriority(priority) {
+            document.querySelectorAll('.priority-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            selectedPriority = priority;
+        }
+        
+        function toggleTime(element, time) {
+            if (element.classList.contains('selected')) {
+                element.classList.remove('selected');
+                selectedTimes = selectedTimes.filter(t => t !== time);
+            } else if (selectedTimes.length < 2) {
+                element.classList.add('selected');
+                selectedTimes.push(time);
+            }
+        }
+        
+        function confirmarAgendamento() {
+            const nome = document.getElementById('nome').value;
+            const telefone = document.getElementById('telefone').value;
+            const endereco = document.getElementById('endereco').value;
+            const data = document.getElementById('data').value;
+            
+            if (!selectedService) {
+                alert('Por favor, selecione um serviço.');
+                return;
+            }
+            
+            if (!selectedServiceType) {
+                alert('Por favor, selecione o tipo de serviço desejado.');
+                return;
+            }
+            
+            if (!selectedPriority) {
+                alert('Por favor, selecione a prioridade.');
+                return;
+            }
+            
+            if (!nome || !telefone || !endereco || !data) {
+                alert('Por favor, preencha todos os campos obrigatórios.');
+                return;
+            }
+            
+            // Store appointment
+            const agendamento = {
+                servico: selectedService,
+                tipo: selectedServiceType,
+                prioridade: selectedPriority,
+                nome: nome,
+                telefone: telefone,
+                email: document.getElementById('email').value,
+                endereco: endereco,
+                data: data,
+                periodo: document.getElementById('periodo').value,
+                horarios: selectedTimes,
+                observacoes: document.getElementById('observacoes').value,
+                dataAgendamento: new Date().toISOString()
+            };
+            
+            localStorage.setItem('agendamento', JSON.stringify(agendamento));
+            
+            // Update summary
+            document.getElementById('summaryService').textContent = selectedService.name;
+            document.getElementById('summaryType').textContent = selectedServiceType.name;
+            document.getElementById('summaryNome').textContent = nome;
+            document.getElementById('summaryData').textContent = data;
+            document.getElementById('summaryContato').textContent = telefone;
+            
+            // Show success
+            document.getElementById('bookingForm').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'block';
+            
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>

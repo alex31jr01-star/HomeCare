@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar Senha - HomeCare</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .auth-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 20px;
+        }
+        
+        .auth-container {
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            min-height: 500px;
+        }
+        
+        .auth-forms-container {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .auth-image-container {
+            flex: 1;
+            background-image: url('https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?w=600&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+        
+        .auth-image-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.85), rgba(189, 195, 199, 0.75));
+            z-index: 1;
+        }
+        
+        .auth-image-container > * {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .auth-image-container h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        
+        .auth-image-container p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+        
+        .auth-logo {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+        
+        .form-title {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .form-subtitle {
+            color: var(--text-light);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+        
+        .btn-recuperar {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-recuperar:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .auth-switch {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--text-light);
+        }
+        
+        .auth-switch a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .auth-switch a:hover {
+            text-decoration: underline;
+        }
+        
+        .back-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: white;
+            color: var(--primary-color);
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+        
+        .back-home:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Estilos para as etapas */
+        .step {
+            display: none;
+        }
+        
+        .step.active {
+            display: block;
+        }
+        
+        .code-inputs {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .code-input {
+            width: 50px;
+            height: 60px;
+            text-align: center;
+            font-size: 1.5rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        
+        .code-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .resend-code {
+            text-align: center;
+            margin-top: 15px;
+            color: var(--text-light);
+        }
+        
+        .resend-code a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .resend-code a:hover {
+            text-decoration: underline;
+        }
+        
+        .resend-code a.disabled {
+            color: var(--text-light);
+            cursor: not-allowed;
+        }
+        
+        .timer {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .success-icon {
+            font-size: 4rem;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .auth-image-container {
+                display: none;
+            }
+            
+            .auth-container {
+                max-width: 450px;
+            }
+            
+            .auth-forms-container {
+                padding: 30px;
+            }
+            
+            .code-input {
+                width: 40px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="login.html" class="back-home">← Voltar ao Login</a>
+    
+    <div class="auth-page">
+        <div class="auth-container">
+            <!-- Image Side -->
+            <div class="auth-image-container">
+                <div class="auth-logo">🔐</div>
+                <h2>Recuperar Senha</h2>
+                <p>Não se preocupe, vamos ajudá-lo a recuperar sua conta.</p>
+            </div>
+            
+            <!-- Form Side -->
+            <div class="auth-forms-container">
+                <!-- Etapa 1: Informar e-mail -->
+                <div id="step1" class="step active">
+                    <h1 class="form-title">Esqueci minha Senha</h1>
+                    <p class="form-subtitle">Informe seu e-mail cadastrado</p>
+                    
+                    <form class="auth-form" onsubmit="event.preventDefault(); verificarEmail();">
+                        <div class="form-group">
+                            <label for="recoveryEmail">E-mail cadastrado</label>
+                            <input type="email" id="recoveryEmail" placeholder="Seu e-mail" required>
+                        </div>
+                        
+                        <button type="submit" class="btn-recuperar">Enviar Código</button>
+                    </form>
+                    
+                    <div class="auth-switch">
+                        <p>Lembrou a senha? <a href="login.html">Voltar ao Login</a></p>
+                    </div>
+                </div>
+                
+                <!-- Etapa 2: Verificar código -->
+                <div id="step2" class="step">
+                    <h1 class="form-title">Verificar Código</h1>
+                    <p class="form-subtitle">Enviamos um código de 6 dígitos para<br><strong id="emailDisplay"></strong></p>
+                    
+                    <form class="auth-form" onsubmit="event.preventDefault(); verificarCodigo();">
+                        <div class="code-inputs">
+                            <input type="text" class="code-input" maxlength="1" id="code1" oninput="moveToNext(this, 'code2')" onkeyup="handleBackspace(this, event, 'code1')">
+                            <input type="text" class="code-input" maxlength="1" id="code2" oninput="moveToNext(this, 'code3')" onkeyup="handleBackspace(this, event, 'code1')">
+                            <input type="text" class="code-input" maxlength="1" id="code3" oninput="moveToNext(this, 'code4')" onkeyup="handleBackspace(this, event, 'code2')">
+                            <input type="text" class="code-input" maxlength="1" id="code4" oninput="moveToNext(this, 'code5')" onkeyup="handleBackspace(this, event, 'code3')">
+                            <input type="text" class="code-input" maxlength="1" id="code5" oninput="moveToNext(this, 'code6')" onkeyup="handleBackspace(this, event, 'code4')">
+                            <input type="text" class="code-input" maxlength="1" id="code6" onkeyup="handleBackspace(this, event, 'code5')">
+                        </div>
+                        
+                        <button type="submit" class="btn-recuperar">Verificar Código</button>
+                    </form>
+                    
+                    <div class="resend-code">
+                        <p>Não recebeu o código? <a id="resendLink" href="#" onclick="reenviarCodigo()">Reenviar código</a> <span id="timer" class="timer"></span></p>
+                    </div>
+                    
+                    <div class="auth-switch">
+                        <p><a href="recuperar-senha.html">Voltar</a></p>
+                    </div>
+                </div>
+                
+                <!-- Etapa 3: Nova senha -->
+                <div id="step3" class="step">
+                    <h1 class="form-title">Nova Senha</h1>
+                    <p class="form-subtitle">Digite sua nova senha</p>
+                    
+                    <form class="auth-form" onsubmit="event.preventDefault(); salvarNovaSenha();">
+                        <div class="form-group">
+                            <label for="novaSenha">Nova Senha</label>
+                            <input type="password" id="novaSenha" placeholder="Mínimo 6 caracteres" required minlength="6">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="confirmarSenha">Confirmar Senha</label>
+                            <input type="password" id="confirmarSenha" placeholder="Repita a senha" required minlength="6">
+                        </div>
+                        
+                        <button type="submit" class="btn-recuperar">Alterar Senha</button>
+                    </form>
+                    
+                    <div class="auth-switch">
+                        <p><a href="login.html">Voltar ao Login</a></p>
+                    </div>
+                </div>
+                
+                <!-- Etapa 4: Sucesso -->
+                <div id="step4" class="step">
+                    <div class="success-icon">✅</div>
+                    <h1 class="form-title">Senha Alterada!</h1>
+                    <p class="form-subtitle">Sua senha foi alterada com sucesso.</p>
+                    
+                    <div class="auth-switch">
+                        <p><a href="login.html">Ir para Login</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+    <script>
+        // Variáveis globais para recuperação de senha
+        let codigoVerificacao = '';
+        let emailRecuperacao = '';
+        let timerInterval = null;
+        
+        // Função para mover para o próximo campo
+        function moveToNext(current, nextId) {
+            if (current.value.length >= 1) {
+                const nextInput = document.getElementById(nextId);
+                if (nextInput) {
+                    nextInput.focus();
+                }
+            }
+        }
+        
+        // Função para lidar com backspace
+        function handleBackspace(current, event, prevId) {
+            if (event.key === 'Backspace' && current.value.length === 0) {
+                const prevInput = document.getElementById(prevId);
+                if (prevInput) {
+                    prevInput.focus();
+                }
+            }
+        }
+        
+        // Função para verificar o e-mail
+        function verificarEmail() {
+            const email = document.getElementById('recoveryEmail').value.trim();
+            
+            if (!email) {
+                alert('Por favor, informe seu e-mail.');
+                return;
+            }
+            
+            // Validar formato do e-mail
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Por favor, insira um e-mail válido.');
+                return;
+            }
+            
+            // Verificar se o e-mail está cadastrado
+            const usuarioSalvo = localStorage.getItem('usuarioHomeCare');
+            
+            if (!usuarioSalvo) {
+                alert('Nenhum usuário encontrado com este e-mail. Faça seu cadastro primeiro.');
+                return;
+            }
+            
+            const usuario = JSON.parse(usuarioSalvo);
+            
+            if (usuario.email.toLowerCase() !== email.toLowerCase()) {
+                alert('E-mail não encontrado. Verifique e tente novamente.');
+                return;
+            }
+            
+            // E-mail encontrado, gerar código
+            emailRecuperacao = email;
+            gerarCodigo(email);
+        }
+        
+        // Função para gerar código de verificação
+        function gerarCodigo(email) {
+            // Gerar código de 6 dígitos
+            codigoVerificacao = Math.floor(100000 + Math.random() * 900000).toString();
+            
+            // Simular envio de e-mail (mostrar código em alerta)
+            alert(`Código de recuperação enviado para ${email}\n\nSeu código é: ${codigoVerificacao}\n\n(Este é um teste - em produção, o código seria enviado por e-mail)`);
+            
+            // Mostrar o e-mail na tela
+            document.getElementById('emailDisplay').textContent = email;
+            
+            // Ir para etapa 2
+            showStep(2);
+            
+            // Iniciar timer para reenvio
+            iniciarTimer();
+        }
+        
+        // Função para verificar o código
+        function verificarCodigo() {
+            const code1 = document.getElementById('code1').value;
+            const code2 = document.getElementById('code2').value;
+            const code3 = document.getElementById('code3').value;
+            const code4 = document.getElementById('code4').value;
+            const code5 = document.getElementById('code5').value;
+            const code6 = document.getElementById('code6').value;
+            
+            const codigoInserido = code1 + code2 + code3 + code4 + code5 + code6;
+            
+            if (codigoInserido.length !== 6) {
+                alert('Por favor, insira o código completo de 6 dígitos.');
+                return;
+            }
+            
+            if (codigoInserido !== codigoVerificacao) {
+                alert('Código incorreto. Tente novamente.');
+                limparCamposCodigo();
+                return;
+            }
+            
+            // Código correto, ir para etapa 3
+            showStep(3);
+        }
+        
+        // Função para limpar campos do código
+        function limparCamposCodigo() {
+            for (let i = 1; i <= 6; i++) {
+                document.getElementById('code' + i).value = '';
+            }
+            document.getElementById('code1').focus();
+        }
+        
+        // Função para reenviar código
+        function reenviarCodigo() {
+            const resendLink = document.getElementById('resendLink');
+            
+            if (resendLink.classList.contains('disabled')) {
+                return;
+            }
+            
+            // Gerar novo código
+            codigoVerificacao = Math.floor(100000 + Math.random() * 900000).toString();
+            
+            alert(`Novo código de recuperação enviado!\n\nSeu código é: ${codigoVerificacao}\n\n(Este é um teste - em produção, o código seria enviado por e-mail)`);
+            
+            // Limpar campos
+            limparCamposCodigo();
+            
+            // Reiniciar timer
+            iniciarTimer();
+        }
+        
+        // Função para iniciar timer de 60 segundos
+        function iniciarTimer() {
+            let tempoRestante = 60;
+            const timerElement = document.getElementById('timer');
+            const resendLink = document.getElementById('resendLink');
+            
+            resendLink.classList.add('disabled');
+            resendLink.onclick = null;
+            
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+            
+            timerElement.textContent = `(${tempoRestante}s)`;
+            
+            timerInterval = setInterval(() => {
+                tempoRestante--;
+                timerElement.textContent = `(${tempoRestante}s)`;
+                
+                if (tempoRestante <= 0) {
+                    clearInterval(timerInterval);
+                    timerElement.textContent = '';
+                    resendLink.classList.remove('disabled');
+                    resendLink.onclick = function() { reenviarCodigo(); return false; };
+                }
+            }, 1000);
+        }
+        
+        // Função para salvar nova senha
+        function salvarNovaSenha() {
+            const novaSenha = document.getElementById('novaSenha').value;
+            const confirmarSenha = document.getElementById('confirmarSenha').value;
+            
+            if (!novaSenha || !confirmarSenha) {
+                alert('Por favor, preencha todos os campos.');
+                return;
+            }
+            
+            if (novaSenha.length < 6) {
+                alert('A senha deve ter pelo menos 6 caracteres.');
+                return;
+            }
+            
+            if (novaSenha !== confirmarSenha) {
+                alert('As senhas não coincidem!');
+                return;
+            }
+            
+            // Atualizar senha no localStorage
+            const usuarioSalvo = localStorage.getItem('usuarioHomeCare');
+            
+            if (usuarioSalvo) {
+                const usuario = JSON.parse(usuarioSalvo);
+                usuario.senha = novaSenha;
+                localStorage.setItem('usuarioHomeCare', JSON.stringify(usuario));
+            }
+            
+            // Ir para etapa de sucesso
+            showStep(4);
+        }
+        
+        // Função para mostrar uma etapa
+        function showStep(stepNumber) {
+            // Ocultar todas as etapas
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+            
+            // Mostrar a etapa selecionada
+            document.getElementById('step' + stepNumber).classList.add('active');
+            
+            // Focar no primeiro campo da etapa
+            if (stepNumber === 1) {
+                document.getElementById('recoveryEmail').focus();
+            } else if (stepNumber === 2) {
+                document.getElementById('code1').focus();
+            } else if (stepNumber === 3) {
+                document.getElementById('novaSenha').focus();
+            }
+        }
+        
+        // Limpar campos ao carregar a página
+        document.addEventListener('DOMContentLoaded', function() {
+            // Limpar campos ao iniciar
+        });
+    </script>
+</body>
+</html>
+
