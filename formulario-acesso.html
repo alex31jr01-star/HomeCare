@@ -186,128 +186,18 @@
         </form>
     </div>
     
+    <script src="script.js"></script>
     <script>
-        // Função de máscara de CPF
-        function mascaraCPF(input) {
-            let valor = input.value.replace(/\D/g, '');
-            
-            if (valor.length > 11) {
-                valor = valor.substring(0, 11);
-            }
-            
-            if (valor.length <= 3) {
-                input.value = valor;
-            } else if (valor.length <= 6) {
-                input.value = valor.substring(0, 3) + '.' + valor.substring(3);
-            } else if (valor.length <= 9) {
-                input.value = valor.substring(0, 3) + '.' + valor.substring(3, 6) + '.' + valor.substring(6);
-            } else {
-                input.value = valor.substring(0, 3) + '.' + valor.substring(3, 6) + '.' + valor.substring(6, 9) + '-' + valor.substring(9);
-            }
-        }
-
-        // Adicionar máscara de CPF ao campo
-        document.addEventListener('DOMContentLoaded', function() {
-            const cpfInput = document.getElementById('formAcessoCPF');
-            if (cpfInput) {
-                cpfInput.addEventListener('input', function() {
-                    mascaraCPF(this);
-                });
+        document.addEventListener('DOMContentLoaded', () => {
+            // Form submit now uses shared validarAcesso()
+            const form = document.querySelector('.auth-form');
+            if (form) {
+                form.onsubmit = (e) => {
+                    e.preventDefault();
+                    validarAcesso();
+                };
             }
         });
-
-        // Função para mostrar alertas
-        function mostrarAlerta(mensagem, tipo) {
-            const alertBox = document.getElementById('alertBox');
-            if (alertBox) {
-                alertBox.textContent = mensagem;
-                alertBox.className = 'alert-box ' + tipo;
-            }
-        }
-
-        // Função para validar o formulário de acesso
-        function validarFormularioAcesso() {
-            const nome = document.getElementById('formAcessoName').value.trim();
-            const dataNascimento = document.getElementById('formAcessoBirthdate').value.trim();
-            const cpf = document.getElementById('formAcessoCPF').value.trim();
-            const endereco = document.getElementById('formAcessoAddress').value.trim();
-            const email = document.getElementById('formAcessoEmail').value.trim();
-            const senha = document.getElementById('formAcessoPassword').value;
-            const confirmSenha = document.getElementById('formAcessoConfirmPassword').value;
-            const termos = document.getElementById('formAcessoTerms').checked;
-            
-            // Validar campos obrigatórios
-            if (!nome || !dataNascimento || !cpf || !endereco || !email || !senha || !confirmSenha) {
-                mostrarAlerta('Por favor, preencha todos os campos obrigatórios.', 'error');
-                return;
-            }
-            
-            // Validar CPF (deve ter 11 dígitos)
-            const cpfNumerico = cpf.replace(/\D/g, '');
-            if (cpfNumerico.length !== 11) {
-                mostrarAlerta('CPF inválido! Deve conter 11 dígitos.', 'error');
-                return;
-            }
-            
-            // Validar formato de e-mail
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                mostrarAlerta('Por favor, insira um e-mail válido.', 'error');
-                return;
-            }
-            
-            // Validar senhas
-            if (senha !== confirmSenha) {
-                mostrarAlerta('As senhas não coincidem!', 'error');
-                return;
-            }
-            
-            // Validar senha mínima
-            if (senha.length < 6) {
-                mostrarAlerta('A senha deve ter pelo menos 6 caracteres.', 'error');
-                return;
-            }
-            
-            // Validar maior de idade
-            const hoje = new Date();
-            const nasc = new Date(dataNascimento);
-            let idade = hoje.getFullYear() - nasc.getFullYear();
-            const mes = hoje.getMonth() - nasc.getMonth();
-            if (mes < 0 || (mes === 0 && hoje.getDate() < nasc.getDate())) {
-                idade--;
-            }
-            
-            if (idade < 18) {
-                mostrarAlerta('Você deve ser maior de 18 anos para acessar o site.', 'error');
-                return;
-            }
-            
-            // Validar termos
-            if (!termos) {
-                mostrarAlerta('Você deve aceitar os Termos de Uso e Política de Privacidade.', 'error');
-                return;
-            }
-            
-            // Criar objeto do usuário
-            const usuario = {
-                nome: nome,
-                dataNascimento: dataNascimento,
-                cpf: cpf,
-                endereco: endereco,
-                email: email,
-                acessoLiberado: true,
-                dataCadastro: new Date().toISOString()
-            };
-            
-            // Salvar no localStorage
-            localStorage.setItem('usuarioFormularioAcessoHomeCare', JSON.stringify(usuario));
-            
-            // Redirecionar para a página inicial
-            alert('Acesso liberado via formulário! Bem-vindo ao HomeCare.');
-            window.location.href = 'index.html';
-        }
-
-        console.log('Página de formulário de acesso carregada!');
     </script>
 </body>
 </html>

@@ -232,88 +232,75 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Função para validar o formulário de acesso restrito
-function validarAcesso() {
-    const nome = document.getElementById('accessName').value.trim();
-    const dataNascimento = document.getElementById('accessBirthdate').value.trim();
-    const cpf = document.getElementById('accessCPF').value.trim();
-    const endereco = document.getElementById('accessAddress').value.trim();
-    const email = document.getElementById('accessEmail').value.trim();
-    const senha = document.getElementById('accessPassword').value;
-    const confirmSenha = document.getElementById('accessConfirmPassword').value;
-    const termos = document.getElementById('accessTerms').checked;
+// Função para validar acesso restrito (Server API)
+async function validarAcesso() {
+    const nomeEl = document.getElementById('accessName') || document.getElementById('formAcessoName');
+    const birthEl = document.getElementById('accessBirthdate') || document.getElementById('formAcessoBirthdate');
+    const cpfEl = document.getElementById('accessCPF') || document.getElementById('formAcessoCPF');
+    const addrEl = document.getElementById('accessAddress') || document.getElementById('formAcessoAddress');
+    const emailEl = document.getElementById('accessEmail') || document.getElementById('formAcessoEmail');
+    const passEl = document.getElementById('accessPassword') || document.getElementById('formAcessoPassword');
+    const confirmEl = document.getElementById('accessConfirmPassword') || document.getElementById('formAcessoConfirmPassword');
+    
+    const nome = nomeEl?.value.trim();
+    const dataNascimento = birthEl?.value.trim();
+    const cpf = cpfEl?.value.trim();
+    const endereco = addrEl?.value.trim();
+    const email = emailEl?.value.trim();
+    const senha = passEl?.value;
+    const confirmSenha = confirmEl?.value;
     
     const alertBox = document.getElementById('alertBox');
     
-    // Validar campos obrigatórios
-    if (!nome || !dataNascimento || !cpf || !endereco || !email || !senha || !confirmSenha) {
-        mostrarAlerta('Por favor, preencha todos os campos obrigatórios.', 'error');
+    if (!nome || !dataNascimento || !cpf || !endereco || !email || !senha || !confirmSenha || senha !== confirmSenha) {
+        if (alertBox) mostrarAlerta('Preencha todos os campos corretamente.', 'error');
+        else alert('Preencha todos os campos corretamente.');
         return;
     }
     
-    // Validar CPF (deve ter 11 dígitos)
-    const cpfNumerico = cpf.replace(/\D/g, '');
-    if (cpfNumerico.length !== 11) {
-        mostrarAlerta('CPF inválido! Deve conter 11 dígitos.', 'error');
-        return;
+    if (alertBox) mostrarAlerta('Registrando no servidor...', 'success');
+    
+    try {
+        const response = await fetch('/api/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nome, dataNascimento, cpf, endereco, email, senha })
+        });
+        const data = await response.json();
+        
+        if (data.success) {
+            localStorage.setItem('homecare_jwt', data.token);
+            alert('Acesso liberado!');
+            window.location.href = 'index.html';
+        } else {
+            if (alertBox) mostrarAlerta(data.error, 'error');
+            else alert(data.error);
+        }
+    } catch (err) {
+// console.error suppressed
+        if (alertBox) mostrarAlerta('Erro de conexão. Verifique se o servidor está rodando.', 'error');
+        else alert('Erro de conexão');
     }
-    
-    // Validar formato de e-mail (Gmail)
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        mostrarAlerta('Por favor, insira um e-mail válido.', 'error');
-        return;
+}
+
+// Server-based login
+async function fazerLoginServer(email, senha) {
+    try {
+        const response = await fetch('/api/verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, senha })
+        });
+        const data = await response.json();
+        if (data.success) {
+            localStorage.setItem('homecare_jwt', data.token);
+            window.location.href = 'index.html';
+        } else {
+            alert(data.error);
+        }
+    } catch (err) {
+        alert('Erro de conexão');
     }
-    
-    // Validar senhas
-    if (senha !== confirmSenha) {
-        mostrarAlerta('As senhas não coincidem!', 'error');
-        return;
-    }
-    
-    // Validar senha mínima
-    if (senha.length < 6) {
-        mostrarAlerta('A senha deve ter pelo menos 6 caracteres.', 'error');
-        return;
-    }
-    
-    // Validar maior de idade
-    const hoje = new Date();
-    const nasc = new Date(dataNascimento);
-    let idade = hoje.getFullYear() - nasc.getFullYear();
-    const mes = hoje.getMonth() - nasc.getMonth();
-    if (mes < 0 || (mes === 0 && hoje.getDate() < nasc.getDate())) {
-        idade--;
-    }
-    
-    if (idade < 18) {
-        mostrarAlerta('Você deve ser maior de 18 anos para acessar o site.', 'error');
-        return;
-    }
-    
-    // Validar termos
-    if (!termos) {
-        mostrarAlerta('Você deve aceitar os Termos de Uso e Política de Privacidade.', 'error');
-        return;
-    }
-    
-    // Criar objeto do usuário
-    const usuario = {
-        nome: nome,
-        dataNascimento: dataNascimento,
-        cpf: cpf,
-        endereco: endereco,
-        email: email,
-        acessoLiberado: true,
-        dataCadastro: new Date().toISOString()
-    };
-    
-    // Salvar no localStorage
-    localStorage.setItem('usuarioAcessoHomeCare', JSON.stringify(usuario));
-    
-    // Redirecionar para a página inicial
-    alert('Acesso liberado! Bem-vindo ao HomeCare.');
-    window.location.href = 'index.html';
 }
 
 // Função para mostrar alertas
@@ -325,39 +312,67 @@ function mostrarAlerta(mensagem, tipo) {
     }
 }
 
-// Função para verificar se o usuário tem acesso
-function verificarAcesso() {
-    // Verificar se já está na página de acesso restrito para evitar loop
-    const caminhoPagina = window.location.href.toLowerCase();
-    if (caminhoPagina.includes('acesso-restrito.html') || caminhoPagina.includes('file://')) {
-        return true; // Não verificar acesso se já estiver na página de acesso restrito ou se for arquivo local
+// Função para verificar se o usuário tem acesso (Server JWT version)
+async function verificarAcesso() {
+    // Whitelist pages no auth needed
+    const pathname = window.location.pathname.toLowerCase();
+    const whitelisted = ['acesso-restrito.html', 'formulario-acesso.html', 'login.html', 'cadastro.html', 'recuperar-senha.html'];
+    if (whitelisted.some(p => pathname.includes(p)) || window.location.protocol === 'file:') {
+        return true;
     }
     
-    const usuarioSalvo = localStorage.getItem('usuarioAcessoHomeCare');
-    
-    if (!usuarioSalvo) {
-        // Usuário não tem acesso, redirecionar para página restrita
+    const jwtToken = localStorage.getItem('homecare_jwt');
+    if (!jwtToken) {
         window.location.href = 'acesso-restrito.html';
         return false;
     }
     
-    const usuario = JSON.parse(usuarioSalvo);
-    if (!usuario.acessoLiberado) {
+    try {
+        const response = await fetch('/api/auth/check', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${jwtToken}`
+            }
+        });
+        const data = await response.json();
+        
+        if (data.authorized) {
+            return true;
+        } else {
+            localStorage.removeItem('homecare_jwt');
+            window.location.href = 'acesso-restrito.html';
+            return false;
+        }
+    } catch (error) {
+// Auth error suppressed
+        localStorage.removeItem('homecare_jwt');
         window.location.href = 'acesso-restrito.html';
         return false;
     }
-    
-    return true;
 }
 
-// Verificar acesso ao carregar qualquer página (exceto página de acesso restrito)
-document.addEventListener('DOMContentLoaded', function() {
-    const caminhoPagina = window.location.href.toLowerCase();
-    // Só verifica se NÃO estiver na página de acesso restrito
-    if (!caminhoPagina.includes('acesso-restrito.html') && !caminhoPagina.includes('file://')) {
-        verificarAcesso();
+// Logout function
+function sair() {
+    localStorage.removeItem('homecare_jwt');
+    window.location.href = 'login.html';
+}
+
+// Init on load
+document.addEventListener('DOMContentLoaded', async () => {
+    // Init masks
+    document.querySelectorAll('input[id*=\"CPF\"]').forEach(el => {
+        el.addEventListener('input', e => mascaraCPF(e.target));
+    });
+    document.querySelectorAll('input[id*=\"Phone\"]').forEach(el => {
+        el.addEventListener('input', e => mascaraTelefone(e.target));
+    });
+    
+    // Check auth if needed
+    const pathname = window.location.pathname.toLowerCase();
+    if (!pathname.includes('acesso-restrito') && !pathname.includes('formulario-acesso') && !pathname.includes('login') && !pathname.includes('cadastro')) {
+        await verificarAcesso();
     }
 });
 
-console.log('HomeCare - Site carregado com sucesso!');
+// HomeCare Server Auth Ready!
 
