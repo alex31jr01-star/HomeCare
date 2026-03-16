@@ -1,13 +1,8 @@
-# TODO - Tela de Acesso Restrito
+# Task: Renomear 'acesso restrito' para 'formulario de acesso'
 
-## Tarefas a Executar:
-- [x] 1. Criar arquivo `acesso-restrito.html` com formulário de acesso
-- [x] 2. Atualizar `script.js` com função de validação do formulário
-- [x] 3. Modificar `index.html` para verificar acesso do usuário
-- [x] 4. Testar o fluxo de acesso restrito
-
-## Progresso:
-- [x] Tarefa 1: Criar arquivo acesso-restrito.html
-- [x] Tarefa 2: Atualizar script.js
-- [x] Tarefa 3: Modificar index.html
+## Steps:
+- [x] 1. Create TODO.md
+- [x] 2. Create new formulario-acesso.html with updated content
+- [x] 3. Delete old acesso-restrito.html
+- [x] 4. Commit and push changes to update GitHub Pages deployment
 
